@@ -12,21 +12,19 @@ ans = 0
 temp =sys.maxsize
 
 def bfs(graph,start,visited):
-    cnt = 0
     result = [0]*(N+1)
     deq = deque()
-    deq.append((start,cnt))
-    visited[start] = True
+    deq.append((start,0))
+    visited[start] = False
 
     while deq:
         n,num= deq.popleft()
         result[n] = num
-        cnt += 1
         for elem in graph[n]:
             if visited[elem]:
                 continue
             visited[elem] = True
-            deq.append((elem,cnt))
+            deq.append((elem,num+1))
     return sum(result)
 
 
