@@ -5,27 +5,22 @@ cnt =[0]*3
 for _ in range(N):
     papers.append(list(map(int,sys.stdin.readline().split())))
 
-print(papers[0][0:3])
 
-def isSame(graph):
-    size = len(graph)
-    temp = graph[0][0]
+def isSame(x,y,size):
+    temp = papers[x][y]
     for i in range(size):
         for j in range(size):
-            if temp != graph[i][j]:
+            if temp != papers[x+i][y+j]:
                 return False
     return True
 
-def cut(graph):
-    size = len(graph)
-    if isSame(graph):
-        if graph[0][0] == -1:
-            cnt[0] += size
-        elif graph[0][0] == 0:
-            cnt[1] += size
-        else:
-            cnt[2] += size
+def cut(x,y,size):
+    if isSame(x,y,size):
+        cnt[papers[x][y]+1] +=1
     else:
-        
-        for i in range(size):
-            pass
+        for i in range(3):
+            for j in range(3):
+                    cut(x+i*size//3,y+j*size//3,size//3)
+
+cut(0,0,N)
+print(f"{cnt[0]}\n{cnt[1]}\n{cnt[2]}")
