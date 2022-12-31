@@ -8,10 +8,9 @@ def solution(s):
     return answer
 
 def convert(s):
-    temp = s[1:len(s)-1]
-    temp = temp.replace("},","")
-    temp = temp[1:len(temp)-1]
-    temp = temp.split("{")
+    temp = s.replace("}}","")
+    temp = temp.replace("{{","")
+    temp = temp.split("},{")
     temp.sort(key = len)
     return temp
 
@@ -20,5 +19,5 @@ def add(subset,dict):
         if char not in dict:
             dict[int(char)] = char
 
-# a = solution("{{4,2,3},{3},{2,3,4,1},{2,3}}")
-# print(a)
+a = solution("{{123},{123,11}}")
+print(a)
