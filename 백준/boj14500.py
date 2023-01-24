@@ -1,38 +1,44 @@
+# 테트로미노
+# python3 시간초과 pypy 통과
+
 N,M = map(int,input().split())
-# N 세로 M 가로
 paper = [list(map(int,input().split())) for _ in range(N)]
 visited = [[False]*M for _ in range(N)]
-# 동 서 남 북
-dn = [0,0,1,-1]
-dm = [1,-1,0,0]
+dx = [0,0,1,-1]
+dy = [1,-1,0,0]
 
 ans = -1
 
-def dfs(cnt,cal,n,m):
-    global ans
-    if cnt == 3:
-        ans = max(cal,ans)
+def check(x,y):
+    if x>=0 and x<N and y>=0 and y<M:
+        return True
+    return False
+
+def bt(depth,x,y,temp):
+    global ans 
+    if depth == 3:
+        ans = max(ans,temp)
         return
-    else:
-        for i in range(4):
-            nn = n + dn[i]
-            nm = m + dm[i]
-            if 0<=nn<N and 0<=nm<M and not visited[nn][nm]:
-                cal += paper[nn][nm]
-                if cnt == 1:
-                    visited[nn][nm] = True
-                    dfs(cnt+1,cal,n,m)
-                    visited[nn][nm] = False
-                visited[nn][nm] = True
-                dfs(cnt+1,cal,nn,nm)
-                visited[nn][nm] = False
+    
+    for i in range(4):
+        nx,ny = x+dx[i],y+dy[i]
+        if check(nx,ny) and not visited[nx][ny]:
+            if depth == 1:
+                visited[nx][ny] = True
+                bt(depth+1,x,y,temp+paper[nx][ny])
+                visited[nx][ny] = False
+            visited[nx][ny] = True
+            bt(depth+1,nx,ny,temp+paper[nx][ny])
+            visited[nx][ny] = False
 
 
 for i in range(N):
     for j in range(M):
         visited[i][j] = True
-        dfs(0,paper[i][j],i,j)
+        bt(0,i,j,paper[i][j])
         visited[i][j] = False
 
 print(ans)
+
+            
 
